@@ -12,7 +12,7 @@ const ComponentA = () => {
   const handlesubmit = (e) => {
     e.preventDefault();
     //console.log(name);
-    const userobj = { id: Date.now() + 1, title: name };
+    const userobj = { title: name };
     //console.log(userobj)
     dispatch(addDataApi(userobj));
     toast({

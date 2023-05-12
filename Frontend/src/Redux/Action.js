@@ -4,15 +4,15 @@ import {
   GET_DATA_SUCCESS,
 } from "./ActionType";
 import axios from "axios";
-
+const BASE_URL="https://todo-backend-khhc.onrender.com/api/todo"
 //GET
 export const getDataApi = () => (dispatch) => {
   dispatch({ type: GET_DATA_LOADING });
   return axios
-    .get("https://stempedia.onrender.com/data")
+    .get(`${BASE_URL}`)
     .then((res) => {
-      //console.log(res)
-      dispatch({ type: GET_DATA_SUCCESS, payload: res.data });
+      console.log(res)
+      dispatch({ type: GET_DATA_SUCCESS, payload: res.data.message });
     })
     .catch((err) => {
       dispatch({ type: GET_DATA_ERRORS });
@@ -22,7 +22,7 @@ export const getDataApi = () => (dispatch) => {
 //post
 export const addDataApi = (add) => (dispatch) => {
   return axios
-    .post("https://stempedia.onrender.com/data/", add)
+    .post(`${BASE_URL}`, add)
     .then((res) => {
       console.log("data posted to server");
       dispatch(getDataApi());
@@ -35,7 +35,7 @@ export const addDataApi = (add) => (dispatch) => {
 //delete
 export const DeleteApi = (id) => (dispatch) => {
   return axios
-    .delete(`https://stempedia.onrender.com/data/${id}`)
+    .delete(`${BASE_URL}/${id}`)
     .then((res) => {
       console.log("data deleted from server");
       dispatch(getDataApi());
@@ -48,7 +48,7 @@ export const DeleteApi = (id) => (dispatch) => {
 //update
 export const UpdateApi = (newdata, id) => (dispatch) => {
   return axios
-    .put(`https://stempedia.onrender.com/data/${id}`, newdata)
+    .patch(`${BASE_URL}/${id}`, newdata)
     .then((res) => {
       console.log("data updated on json server");
       dispatch(getDataApi());

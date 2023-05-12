@@ -34,7 +34,7 @@ const ComponentB = () => {
   };
   //
   const handleEditSubmit = () => {
-    dispatch(UpdateApi(selectedBox, selectedBox.id));
+    dispatch(UpdateApi(selectedBox, selectedBox._id));
     SetSelectedBox({ id: null, title: "" });
     SetEditMode(false);
     toast({
@@ -59,9 +59,9 @@ const ComponentB = () => {
       <SimpleGrid columns={[1, 2, 4]} spacing={10}>
         {data &&
           data.map((el) => (
-            <Box key={el.id} bg="#cdd2ee" p="20px" borderRadius={"10px"}>
+            <Box key={el._id} bg="#cdd2ee" p="20px" borderRadius={"10px"}>
               {/* if editmode is true and selectedBox.id===el.id is same then input box is visibile */}
-              {editMode && selectedBox.id === el.id ? (
+              {editMode && selectedBox._id === el._id ? (
                 <Input
                   value={selectedBox.title}
                   onChange={(e) =>
@@ -78,7 +78,7 @@ const ComponentB = () => {
                     <Button
                       bg="#cdd2ee"
                       _hover={{ bg: "#cdd2ee" }}
-                      onClick={() => handledelete(el.id)}
+                      onClick={() => handledelete(el._id)}
                     >
                       <DeleteIcon color="#e4002b" />
                     </Button>
@@ -93,7 +93,7 @@ const ComponentB = () => {
                 </>
               )}
               {/* if editmode is true and selectedBox.id===el.id is same then save button  is visibile */}
-              {editMode && selectedBox.id === el.id && (
+              {editMode && selectedBox._id === el._id && (
                 <Button
                   bg="#77b631"
                   _hover={{ bg: "#77b631" }}
