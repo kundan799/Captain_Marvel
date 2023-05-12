@@ -4,7 +4,10 @@ const app = express()
 const cors=require("cors");
 const todoRouter=require("./Router/todo.routes");
 const dbConnect=require("./DB/db");
-app.use(cors());
+app.use(cors({
+    origin:"https://effortless-profiterole-22b27b.netlify.app"
+}));
+
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
 app.get('/', (req, res) => res.send('hello'))
