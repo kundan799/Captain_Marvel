@@ -5,7 +5,7 @@ const cors=require("cors");
 const todoRouter=require("./Router/todo.routes");
 const dbConnect=require("./DB/db");
 app.use(cors({
-    origin:"https://effortless-profiterole-22b27b.netlify.app"
+    origin:"*"
 }));
 
 app.use(express.urlencoded({extended: true}))
