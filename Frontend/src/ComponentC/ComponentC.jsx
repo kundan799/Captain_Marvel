@@ -4,9 +4,11 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   Box,
   Button,
+  Center,
   Flex,
   Input,
   SimpleGrid,
+  Spinner,
   useToast,
 } from "@chakra-ui/react";
 import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
@@ -19,7 +21,8 @@ const ComponentC = () => {
   const [selectedBox, SetSelectedBox] = useState("");
   const [editMode, SetEditMode] = useState(false);
 
-  const { data } = useSelector((store) => store.Product);
+  const { data, loading } = useSelector((store) => store.Product);
+  console.log("loading", loading);
   console.log("data", data);
 
   //useEfect
@@ -54,7 +57,19 @@ const ComponentC = () => {
     });
   };
 
-  return (
+  return loading ? (
+    <Center >
+    <Box m={"auto"}>
+      <Spinner
+        thickness="4px"
+        speed="0.65s"
+        emptyColor="gray.200"
+        color="blue.500"
+        size="xl"
+      />
+    </Box>
+    </Center>
+  ) : (
     <Box w="95%" m={"auto"}>
       <SimpleGrid columns={[1, 2, 4]} spacing={10}>
         {data &&
@@ -108,6 +123,5 @@ const ComponentC = () => {
     </Box>
   );
 };
-
 
 export default ComponentC;
