@@ -4,14 +4,18 @@ import {
   GET_DATA_SUCCESS,
 } from "./ActionType";
 import axios from "axios";
-const BASE_URL="https://todo-backend-khhc.onrender.com/api/todo"
+const BASE_URL = "https://todo-backend-khhc.onrender.com/api/todo";
 //GET
 export const getDataApi = () => (dispatch) => {
   dispatch({ type: GET_DATA_LOADING });
   return axios
-    .get(`${BASE_URL}`)
+    .get(`${BASE_URL}`, {
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+      }
+    })
     .then((res) => {
-      console.log(res)
+      console.log(res);
       dispatch({ type: GET_DATA_SUCCESS, payload: res.data.message });
     })
     .catch((err) => {

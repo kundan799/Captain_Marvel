@@ -1,113 +1,63 @@
-import React, { useEffect, useState } from "react";
+import { Box, Button, Input, Text, useToast } from "@chakra-ui/react";
+import { AddIcon } from "@chakra-ui/icons";
+import React, { useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
-import {
-  Box,
-  Button,
-  Flex,
-  Input,
-  SimpleGrid,
-  useToast,
-} from "@chakra-ui/react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
-import { useNavigate } from "react-router-dom";
-import { DeleteApi, UpdateApi, getDataApi } from "../Redux/Action";
+import { useDispatch } from "react-redux";
+import { addDataApi } from "../Redux/Action";
 
 const ComponentB = () => {
   const toast = useToast();
+  const [name, namechange] = useState("");
   const dispatch = useDispatch();
-  const [selectedBox, SetSelectedBox] = useState("");
-  const [editMode, SetEditMode] = useState(false);
-
-  const { data } = useSelector((store) => store.Product);
-  console.log("data", data);
-
-  //useEfect
-  useEffect(() => {
-    dispatch(getDataApi());
-  }, []);
-
-  // edit
-  const handleEdit = (el) => {
-    SetSelectedBox(el);
-    SetEditMode(true);
-  };
-  //
-  const handleEditSubmit = () => {
-    dispatch(UpdateApi(selectedBox, selectedBox._id));
-    SetSelectedBox({ id: null, title: "" });
-    SetEditMode(false);
+  const handlesubmit = (e) => {
+    e.preventDefault();
+    //console.log(name);
+    const userobj = { title: name };
+    //console.log(userobj)
+    dispatch(addDataApi(userobj));
     toast({
-      title: `data is Updated in server`,
+      title: `Data is added to the server`,
       status: "success",
       position: "top",
       isClosable: true,
     });
+    namechange("");
   };
-  const handledelete = (id) => {
-    dispatch(DeleteApi(id));
-    toast({
-      title: `data is deleted from server`,
-      status: "success",
-      position: "top",
-      isClosable: true,
-    });
-  };
-
   return (
-    <Box w="95%" m={"auto"}>
-      <SimpleGrid columns={[1, 2, 4]} spacing={10}>
-        {data &&
-          data.map((el) => (
-            <Box key={el._id} bg="#cdd2ee" p="20px" borderRadius={"10px"}>
-              {/* if editmode is true and selectedBox.id===el.id is same then input box is visibile */}
-              {editMode && selectedBox._id === el._id ? (
-                <Input
-                  value={selectedBox.title}
-                  onChange={(e) =>
-                    SetSelectedBox({ ...selectedBox, title: e.target.value })
-                  }
-                />
-              ) : (
-                <>
-                  <Box>{el.title}</Box>
-                  <br />
-                  <Box
-                    style={{ display: "flex", justifyContent: "space-between" }}
-                  >
-                    <Button
-                      bg="#cdd2ee"
-                      _hover={{ bg: "#cdd2ee" }}
-                      onClick={() => handledelete(el._id)}
-                    >
-                      <DeleteIcon color="#e4002b" />
-                    </Button>
-                    <Button
-                      bg="#cdd2ee"
-                      _hover={{ bg: "#cdd2ee" }}
-                      onClick={() => handleEdit(el)}
-                    >
-                      <EditIcon color="#77b631" />
-                    </Button>
-                  </Box>
-                </>
-              )}
-              {/* if editmode is true and selectedBox.id===el.id is same then save button  is visibile */}
-              {editMode && selectedBox._id === el._id && (
-                <Button
-                  bg="#77b631"
-                  _hover={{ bg: "#77b631" }}
-                  onClick={() => handleEditSubmit()}
-                >
-                  Save
-                </Button>
-              )}
-            </Box>
-          ))}
-      </SimpleGrid>
+    <Box textAlign={["center"]} p={["20px", "40px"]}>
+      <Box>
+        <Text fontSize={["3xl", "4xl"]} as="b" color="#e1ebfd">
+          Todo App
+        </Text>
+      </Box>
+      <form onSubmit={handlesubmit}>
+        <Box mt={["20px", "40px"]}>
+          <Input
+            htmlSize={["58", "48", "38"]}
+            width={["90%", "45%"]}
+            bg="#e1ebfd"
+            value={name}
+            onChange={(e) => namechange(e.target.value)}
+          />
+          {"  "}
+          <Button
+            borderRadius={"50%"}
+            bg="#271c6c"
+            border="2px solid #e1ebfd"
+            color={"#e1ebfd"}
+            mt={"-8px"}
+            _hover={{
+              bg: "#271c6c",
+              color: "#e1ebfd",
+            }}
+            type="submit"
+          >
+            <AddIcon />
+          </Button>
+        </Box>
+      </form>
     </Box>
   );
 };
-
 
 export default ComponentB;
